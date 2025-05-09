@@ -1,0 +1,103 @@
+﻿use BelHistory
+
+books = db.categories.insertOne({
+    "name" : {
+      "be": "Кнігі",
+      "ru": "Книги"
+    }
+})
+
+documents = db.categories.insertOne({
+    "name" : {
+      "be": "Дакументы",
+      "ru": "Документы"
+    }
+})
+
+gallery = db.categories.insertOne({
+    "name" : {
+      "be": "Галерэя",
+      "ru": "Галерея"
+    }
+})
+
+social = db.subCategories.insertOne({
+    "name" : {
+      "be": "Свецкае",
+      "ru": "Светское"
+    }
+})
+
+fairyTales = db.subCategories.insertOne({
+    "name" : {
+      "be": "Казкі",
+      "ru": "Сказки"
+    }
+})
+
+religious = db.subCategories.insertOne({
+    "name" : {
+      "be": "Рэлігія",
+      "ru": "Религия"
+    }
+})
+
+law = db.subCategories.insertOne({
+    "name" : {
+      "be": "Права",
+      "ru": "Право"
+    }
+})
+
+letters = db.subCategories.insertOne({
+    "name" : {
+      "be": "Лісты",
+      "ru": "Письма"
+    }
+})
+
+map = db.subCategories.insertOne({
+    "name" : {
+      "be": "Карты",
+      "ru": "Карты"
+    }
+})
+
+other = db.subCategories.insertOne({
+    "name" : {
+      "be": "Іншае",
+      "ru": "Другое"
+    }
+})
+
+db.historicalDocs.insertOne({
+  "title": {
+    "be": "Судзебнік Казіміра 1468 г.",
+    "ru": "Судебник Казимира 1468 г."
+  },
+  "creationTime": {
+    "be": "1468 г.",
+    "ru": "1468 г."
+  },
+  "author": {
+    "be": "Казімір IV Ягелончык",
+    "ru": "Казимир IV Ягеллончик"
+  },
+  "language": "Ruthenian",
+
+  "category": {
+    "$ref" : "categories",
+    "$id" : documents.insertedId
+  },
+
+  "subCategory": {
+    "$ref" : "subCategories",
+    "$id" : law.insertedId
+  },
+
+  "fileId": "fileId",
+
+  "tags": [
+    "TestTag0", "TestTag1"
+  ]
+})

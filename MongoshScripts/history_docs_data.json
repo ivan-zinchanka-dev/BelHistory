@@ -1,0 +1,35 @@
+﻿[
+  {
+    "title": {
+      "be": "Судзебнік Казіміра 1468 г.",
+      "ru": "Судебник Казимира 1468 г."
+    },
+    "creationTime": {
+      "be": "1468 г.",
+      "ru": "1468 г."
+    },
+    "author": {
+      "be": "Казімір IV Ягелончык",
+      "ru": "Казимир IV Ягеллончик"
+    },
+    "language": "Ruthenian",
+
+    "category": {
+      "$ref" : "categories",
+      "$id" : "documents.insertedId"
+    },
+
+    "subCategory": {
+      "$ref" : "subCategories",
+      "$id" : "law.insertedId"
+    },
+
+    "fileId": "fileId",
+
+    "tags": [
+      "TestTag0", "TestTag1"
+    ]
+  }
+
+
+]
