@@ -12,7 +12,10 @@
       "be": "Казімір IV Ягелончык",
       "ru": "Казимир IV Ягеллончик"
     },
-    "language": "Ruthenian",
+    "language": {
+      "$ref" : "languages",
+      "$id" : "ruthenian.insertedId"
+    },
 
     "category": {
       "$ref" : "categories",
@@ -24,9 +27,9 @@
       "$id" : "law.insertedId"
     },
 
-    "fileId": "fileId",
+    "fileId": "db.fs.files.findOne({ filename: \"Судзебнік_Казіміра_1468_г.pdf\" })._id",
 
-    "tags": [
+    "tags": [ 
       "TestTag0", "TestTag1"
     ]
   }

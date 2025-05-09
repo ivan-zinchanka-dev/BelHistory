@@ -70,6 +70,20 @@ other = db.subCategories.insertOne({
     }
 })
 
+oldEastSlavic = db.languages.insertOne({
+    "name" : {
+      "be": "Старажытнаруская",
+      "ru": "Древнерусский"
+    }
+})
+
+ruthenian = db.languages.insertOne({
+    "name" : {
+      "be": "Старабеларуская",
+      "ru": "Старобелорусский"
+    }
+})
+
 db.historicalDocs.insertOne({
   "title": {
     "be": "Судзебнік Казіміра 1468 г.",
@@ -83,20 +97,19 @@ db.historicalDocs.insertOne({
     "be": "Казімір IV Ягелончык",
     "ru": "Казимир IV Ягеллончик"
   },
-  "language": "Ruthenian",
-
+  "language": {
+    "$ref" : "languages",
+    "$id" : ruthenian.insertedId
+  },
   "category": {
     "$ref" : "categories",
     "$id" : documents.insertedId
   },
-
   "subCategory": {
     "$ref" : "subCategories",
     "$id" : law.insertedId
   },
-
-  "fileId": "fileId",
-
+  "fileId": db.fs.files.findOne({ filename: "D:\\Downloads\\Судзебнік_Казіміра_1468_г.pdf" }),
   "tags": [
     "TestTag0", "TestTag1"
   ]
