@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BelHistory.Domain.Database.Objects.Base;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
 
 namespace BelHistory.Domain.Database.Objects;
 

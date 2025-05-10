@@ -1,9 +1,11 @@
 ﻿using BelHistory.Domain.API.Models;
+using BelHistory.Domain.Database.Objects;
 using BelHistory.Domain.Database.Services;
 using BelHistory.Domain.Extensions;
+using BelHistory.Domain.Settings;
 using MongoDB.Bson;
 using MongoDB.Driver;
-
+using HistoricalDocument = BelHistory.Domain.API.Models.HistoricalDocument;
 using HistoricalDocumentDbo = BelHistory.Domain.Database.Objects.HistoricalDocument;
 
 namespace BelHistory.Domain.API.Services;
@@ -11,26 +13,46 @@ namespace BelHistory.Domain.API.Services;
 public class HistoricalArchive
 {
     private readonly DatabaseService _databaseService;
-    private readonly Dictionary<ObjectId, LocalizedObject> _sharedObjects = new ();
+    private readonly SharedLocalizedObjects _sharedObjects = new ();
     
-    internal HistoricalArchive(DatabaseService databaseService)
+    internal HistoricalArchive()
     {
-        _databaseService = databaseService;
+        _databaseService = new DatabaseService(new ConnectionSettings()
+        {
+            ConnectionString = "mongodb://localhost:27017",
+            DatabaseName = "BelHistory",
+        });
+        
         InitializeSharedObjects();
     }
     
     private void InitializeSharedObjects()
     {
-        var dbObjects = _databaseService.Categories.All().ToList();
-        dbObjects.AddRange(_databaseService.SubCategories.All().ToList());
-        dbObjects.AddRange(_databaseService.Languages.All().ToList());
-
-        foreach (var dbObject in dbObjects)
+        foreach (var category in _databaseService.Categories.All().ToList())
         {
-            _sharedObjects.Add(dbObject.Id, dbObject.ToApiModel());
+            _sharedObjects.Categories.Add(category.Id, category.ToApiModel());
+        }
+        
+        foreach (var subCategory in _databaseService.SubCategories.All().ToList())
+        {
+            _sharedObjects.SubCategories.Add(subCategory.Id, subCategory.ToApiModel());
+        }
+        
+        foreach (var language in _databaseService.Languages.All().ToList())
+        {
+            _sharedObjects.Languages.Add(language.Id, language.ToApiModel());
         }
     }
-    
+
+    /*public async Task<IReadOnlyList<Category>> GetAllCategoriesAsync() 
+    {
+        var categories = _sharedObjects.Categories.ToList();
+
+        
+        
+    }
+    */
+
     public async Task<IReadOnlyList<HistoricalDocument>> GetPagedDocumentsByPath(
         HistoricalDocumentPath path,
         int pageIndex, 
@@ -56,9 +78,9 @@ public class HistoricalArchive
     
     private HistoricalDocument MapToApiModel(HistoricalDocumentDbo document)
     {
-        _sharedObjects.TryGetValue(document.LanguageId, out LocalizedObject language);
-        _sharedObjects.TryGetValue(document.CategoryId, out LocalizedObject category);
-        _sharedObjects.TryGetValue(document.SubCategoryId, out LocalizedObject subCategory);
+        _sharedObjects.Languages.TryGetValue(document.LanguageId, out LocalizedObject language);
+        _sharedObjects.Categories.TryGetValue(document.CategoryId, out LocalizedObject category);
+        _sharedObjects.SubCategories.TryGetValue(document.SubCategoryId, out LocalizedObject subCategory);
         
         return new HistoricalDocument()
         {

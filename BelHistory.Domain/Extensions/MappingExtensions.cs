@@ -1,4 +1,5 @@
 ﻿using BelHistory.Domain.Database.Objects;
+using BelHistory.Domain.Database.Objects.Base;
 using LocalizedStringApiModel = BelHistory.Domain.API.Models.LocalizedString;
 using LocalizedObjectApiModel = BelHistory.Domain.API.Models.LocalizedObject;
 

@@ -1,4 +1,5 @@
 ﻿using BelHistory.Domain.Database.Objects;
+using BelHistory.Domain.Extensions;
 using MongoDB.Driver;
 using Xunit.Abstractions;
 
@@ -18,12 +19,12 @@ public class DatabaseServiceTests : IClassFixture<DatabaseFixture>
     [Fact]
     public async Task CheckCategories()
     {
-        List<LocalizedObject> categories = await _databaseFixture.Service.Categories
-            .Find(FilterDefinition<LocalizedObject>.Empty).ToListAsync();
+        List<Category> categories = await _databaseFixture.Service.Categories.All().ToListAsync();
 
-        foreach (LocalizedObject category in categories)
+        foreach (Category category in categories)
         {
-            string categoryOutput = $"\nId: {category.Id}\nName(Be): {category.Name.Be}\nName(Ru): {category.Name.Ru}\n";
+            string categoryOutput = 
+                $"\nId: {category.Id}\nName(Be): {category.Name.Be}\nName(Ru): {category.Name.Ru}\nParentId: {category.ParentId}";
             _outputHelper.WriteLine(categoryOutput);
         }
         

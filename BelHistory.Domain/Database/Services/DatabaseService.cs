@@ -1,4 +1,5 @@
 ﻿using BelHistory.Domain.Database.Objects;
+using BelHistory.Domain.Database.Objects.Base;
 using BelHistory.Domain.Settings;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
@@ -13,9 +14,9 @@ internal class DatabaseService
     private readonly GridFSBucket _fileBucket;
 
     public IMongoCollection<HistoricalDocument> HistoricalDocs { get; private set; }
-    public IMongoCollection<LocalizedObject> Categories { get; private set; }
-    public IMongoCollection<LocalizedObject> SubCategories { get; private set; }
-    public IMongoCollection<LocalizedObject> Languages { get; private set; }
+    public IMongoCollection<Category> Categories { get; private set; }
+    public IMongoCollection<Category> SubCategories { get; private set; }
+    public IMongoCollection<Language> Languages { get; private set; }
     
     public DatabaseService(ConnectionSettings connectionSettings)
     {
@@ -26,17 +27,9 @@ internal class DatabaseService
         _fileBucket = new GridFSBucket(_database);
 
         HistoricalDocs = _database.GetCollection<HistoricalDocument>("historicalDocs");
-        Categories = _database.GetCollection<LocalizedObject>("categories");
-        SubCategories = _database.GetCollection<LocalizedObject>("subCategories");
-        Languages = _database.GetCollection<LocalizedObject>("languages");
+        Categories = _database.GetCollection<Category>("categories");
+        SubCategories = _database.GetCollection<Category>("subCategories");
+        Languages = _database.GetCollection<Language>("languages");
         
     }
-
-    public void Test()
-    {
-        Categories.Find(FilterDefinition<LocalizedObject>.Empty).FirstOrDefault();
-        
-    }
-    
-    
 }

@@ -21,54 +21,62 @@ gallery = db.categories.insertOne({
     }
 })
 
-social = db.subCategories.insertOne({
+social = db.categories.insertOne({
     "name" : {
       "be": "Свецкае",
       "ru": "Светское"
-    }
+    },
+    "parentId" : books.insertedId
 })
 
-fairyTales = db.subCategories.insertOne({
+fairyTales = db.categories.insertOne({
     "name" : {
       "be": "Казкі",
       "ru": "Сказки"
-    }
+    },
+    "parentId" : books.insertedId
 })
 
-religious = db.subCategories.insertOne({
+religious = db.categories.insertOne({
     "name" : {
       "be": "Рэлігія",
       "ru": "Религия"
-    }
+    },
+    "parentId" : books.insertedId
 })
 
-law = db.subCategories.insertOne({
+law = db.categories.insertOne({
     "name" : {
       "be": "Права",
       "ru": "Право"
-    }
+    },
+    "parentId" : documents.insertedId
 })
 
-letters = db.subCategories.insertOne({
+letters = db.categories.insertOne({
     "name" : {
       "be": "Лісты",
       "ru": "Письма"
-    }
+    },
+    "parentId" : documents.insertedId
 })
 
-map = db.subCategories.insertOne({
+map = db.categories.insertOne({
     "name" : {
       "be": "Карты",
       "ru": "Карты"
-    }
+    },
+    "parentId" : gallery.insertedId
 })
 
-other = db.subCategories.insertOne({
+other = db.categories.insertOne({
     "name" : {
       "be": "Іншае",
       "ru": "Другое"
-    }
+    },
+    "parentId" : gallery.insertedId
 })
+
 
 oldEastSlavic = db.languages.insertOne({
     "name" : {
@@ -84,6 +92,8 @@ ruthenian = db.languages.insertOne({
     }
 })
 
+
+
 db.historicalDocs.insertOne({
   "title": {
     "be": "Судзебнік Казіміра 1468 г.",
@@ -97,19 +107,10 @@ db.historicalDocs.insertOne({
     "be": "Казімір IV Ягелончык",
     "ru": "Казимир IV Ягеллончик"
   },
-  "language": {
-    "$ref" : "languages",
-    "$id" : ruthenian.insertedId
-  },
-  "category": {
-    "$ref" : "categories",
-    "$id" : documents.insertedId
-  },
-  "subCategory": {
-    "$ref" : "subCategories",
-    "$id" : law.insertedId
-  },
-  "fileId": db.fs.files.findOne({ filename: "D:\\Downloads\\Судзебнік_Казіміра_1468_г.pdf" }),
+  "languageId": ObjectId("681e5ab7cecf3d97ffdcd30c"),
+  "categoryId": ObjectId("681e575acecf3d97ffdcd301"),
+  "subCategoryId": ObjectId("681e576ececf3d97ffdcd306"),
+  "fileId": ObjectId("681e6ad019c92a8d6081a0bd"),
   "tags": [
     "TestTag0", "TestTag1"
   ]

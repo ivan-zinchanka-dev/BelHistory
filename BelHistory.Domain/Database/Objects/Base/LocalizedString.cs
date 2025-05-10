@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace BelHistory.Domain.Database.Objects;
+namespace BelHistory.Domain.Database.Objects.Base;
 
 internal class LocalizedString
 {
