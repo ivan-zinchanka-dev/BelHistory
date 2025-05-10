@@ -13,9 +13,9 @@ internal class DatabaseService
     private readonly GridFSBucket _fileBucket;
 
     public IMongoCollection<HistoricalDocument> HistoricalDocs { get; private set; }
-    public IMongoCollection<LocalizedString> Categories { get; private set; }
-    public IMongoCollection<LocalizedString> SubCategories { get; private set; }
-    public IMongoCollection<LocalizedString> Languages { get; private set; }
+    public IMongoCollection<LocalizedObject> Categories { get; private set; }
+    public IMongoCollection<LocalizedObject> SubCategories { get; private set; }
+    public IMongoCollection<LocalizedObject> Languages { get; private set; }
     
     public DatabaseService(ConnectionSettings connectionSettings)
     {
@@ -26,15 +26,15 @@ internal class DatabaseService
         _fileBucket = new GridFSBucket(_database);
 
         HistoricalDocs = _database.GetCollection<HistoricalDocument>("historicalDocs");
-        Categories = _database.GetCollection<LocalizedString>("categories");
-        SubCategories = _database.GetCollection<LocalizedString>("subCategories");
-        Languages = _database.GetCollection<LocalizedString>("languages");
+        Categories = _database.GetCollection<LocalizedObject>("categories");
+        SubCategories = _database.GetCollection<LocalizedObject>("subCategories");
+        Languages = _database.GetCollection<LocalizedObject>("languages");
         
     }
 
     public void Test()
     {
-        Categories.Find(FilterDefinition<LocalizedString>.Empty).FirstOrDefault();
+        Categories.Find(FilterDefinition<LocalizedObject>.Empty).FirstOrDefault();
         
     }
     

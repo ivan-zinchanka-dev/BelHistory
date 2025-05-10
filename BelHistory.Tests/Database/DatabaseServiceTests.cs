@@ -1,5 +1,4 @@
 ﻿using BelHistory.Domain.Database.Objects;
-using BelHistory.Domain.Database.Services;
 using MongoDB.Driver;
 using Xunit.Abstractions;
 
@@ -17,15 +16,27 @@ public class DatabaseServiceTests : IClassFixture<DatabaseFixture>
     }
 
     [Fact]
-    public async Task Show()
+    public async Task CheckCategories()
     {
-        var result = await _databaseFixture.Service.Categories.Find(x=> x.Ru == "Книги").Limit(1).ToListAsync();
-        Assert.NotNull(result);
+        List<LocalizedObject> categories = await _databaseFixture.Service.Categories
+            .Find(FilterDefinition<LocalizedObject>.Empty).ToListAsync();
+
+        foreach (LocalizedObject category in categories)
+        {
+            string categoryOutput = $"\nId: {category.Id}\nName(Be): {category.Name.Be}\nName(Ru): {category.Name.Ru}\n";
+            _outputHelper.WriteLine(categoryOutput);
+        }
+        
+        Assert.True(categories.Count > 0);
     }
 
-    [Fact]
-    public void Test1()
+    //TODO DbRef -> ObjectId
+    /*[Fact]
+    public async Task CheckDocument()
     {
-        _outputHelper.WriteLine("XUnit test");
-    }
+        List<HistoricalDocument> historicalDocs = await _databaseFixture.Service.HistoricalDocs
+            .Find(doc => doc.Title.Be == "Судзебнік Казіміра 1468 г.").ToListAsync();
+        
+        Assert.True(historicalDocs.Count == 1);
+    }*/
 }
