@@ -5,7 +5,7 @@ using MongoDB.Driver.GridFS;
 
 namespace BelHistory.Domain.Database.Services;
 
-public class DatabaseService
+internal class DatabaseService
 {
     private readonly ConnectionSettings _connectionSettings;
     private readonly IMongoDatabase _database;
@@ -29,6 +29,12 @@ public class DatabaseService
         Categories = _database.GetCollection<LocalizedString>("categories");
         SubCategories = _database.GetCollection<LocalizedString>("subCategories");
         Languages = _database.GetCollection<LocalizedString>("languages");
+        
+    }
+
+    public void Test()
+    {
+        Categories.Find(FilterDefinition<LocalizedString>.Empty).FirstOrDefault();
         
     }
     

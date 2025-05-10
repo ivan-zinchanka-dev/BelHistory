@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace BelHistory.Domain.Database.Objects;
 
-public class HistoricalDocument
+internal class HistoricalDocument
 {
     [BsonId]
     public ObjectId Id { get; private set; }
@@ -30,5 +30,8 @@ public class HistoricalDocument
     
     [BsonElement("fileId")]
     public ObjectId FileId { get; private set; }
+
+    [BsonElement("tags"), Required]
+    public List<string> Tags { get; private set; }
 
 }

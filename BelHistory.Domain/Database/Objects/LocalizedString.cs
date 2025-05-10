@@ -2,7 +2,7 @@
 
 namespace BelHistory.Domain.Database.Objects;
 
-public class LocalizedString
+internal class LocalizedString
 {
     [BsonElement("be")]
     public string Be { get; private set; }
