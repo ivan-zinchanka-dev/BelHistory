@@ -15,7 +15,6 @@ internal class DatabaseService
 
     public IMongoCollection<HistoricalDocument> HistoricalDocs { get; private set; }
     public IMongoCollection<Category> Categories { get; private set; }
-    public IMongoCollection<Category> SubCategories { get; private set; }
     public IMongoCollection<Language> Languages { get; private set; }
     
     public DatabaseService(ConnectionSettings connectionSettings)
@@ -28,8 +27,6 @@ internal class DatabaseService
 
         HistoricalDocs = _database.GetCollection<HistoricalDocument>("historicalDocs");
         Categories = _database.GetCollection<Category>("categories");
-        SubCategories = _database.GetCollection<Category>("subCategories");
         Languages = _database.GetCollection<Language>("languages");
-        
     }
 }

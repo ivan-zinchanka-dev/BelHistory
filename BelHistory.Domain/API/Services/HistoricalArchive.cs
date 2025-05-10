@@ -1,10 +1,10 @@
 ﻿using BelHistory.Domain.API.Models;
-using BelHistory.Domain.Database.Objects;
 using BelHistory.Domain.Database.Services;
 using BelHistory.Domain.Extensions;
 using BelHistory.Domain.Settings;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Category = BelHistory.Domain.API.Models.Category;
 using HistoricalDocument = BelHistory.Domain.API.Models.HistoricalDocument;
 using HistoricalDocumentDbo = BelHistory.Domain.Database.Objects.HistoricalDocument;
 
@@ -13,6 +13,8 @@ namespace BelHistory.Domain.API.Services;
 public class HistoricalArchive
 {
     private readonly DatabaseService _databaseService;
+
+    private List<Category> _catalog;
     private readonly SharedLocalizedObjects _sharedObjects = new ();
     
     internal HistoricalArchive()
@@ -33,25 +35,38 @@ public class HistoricalArchive
             _sharedObjects.Categories.Add(category.Id, category.ToApiModel());
         }
         
-        foreach (var subCategory in _databaseService.SubCategories.All().ToList())
-        {
-            _sharedObjects.SubCategories.Add(subCategory.Id, subCategory.ToApiModel());
-        }
-        
         foreach (var language in _databaseService.Languages.All().ToList())
         {
             _sharedObjects.Languages.Add(language.Id, language.ToApiModel());
         }
     }
 
-    /*public async Task<IReadOnlyList<Category>> GetAllCategoriesAsync() 
+    public async Task<IReadOnlyList<Category>> GetCatalogAsync() 
     {
-        var categories = _sharedObjects.Categories.ToList();
+        if (_catalog == null)
+        {
+            _catalog = new List<Category>();
+            
+            var topCategoryObjects = await _databaseService.Categories
+                .Find(category => category.ParentId == ObjectId.Empty)
+                .ToListAsync();
+            
+            foreach (var categoryObject in topCategoryObjects)
+            {
+                var subCategoryObjects = await _databaseService.Categories
+                    .Find(category => category.ParentId == categoryObject.Id)
+                    .ToListAsync();
 
+                List<Category> subCategories = subCategoryObjects
+                    .Select(obj => new Category(obj.ToApiModel()))
+                    .ToList();
+                
+                _catalog.Add(new Category(categoryObject.ToApiModel()).SetSubCategories(subCategories));
+            }
+        }
         
-        
+        return _catalog;
     }
-    */
 
     public async Task<IReadOnlyList<HistoricalDocument>> GetPagedDocumentsByPath(
         HistoricalDocumentPath path,
@@ -80,7 +95,7 @@ public class HistoricalArchive
     {
         _sharedObjects.Languages.TryGetValue(document.LanguageId, out LocalizedObject language);
         _sharedObjects.Categories.TryGetValue(document.CategoryId, out LocalizedObject category);
-        _sharedObjects.SubCategories.TryGetValue(document.SubCategoryId, out LocalizedObject subCategory);
+        _sharedObjects.Categories.TryGetValue(document.SubCategoryId, out LocalizedObject subCategory);
         
         return new HistoricalDocument()
         {
