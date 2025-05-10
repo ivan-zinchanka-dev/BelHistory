@@ -19,14 +19,14 @@ internal class HistoricalDocument
     [BsonElement("author")]
     public LocalizedString Author { get; private set; }
 
-    [BsonElement("language"), Required]
-    public MongoDBRef Language { get; private set; }
+    [BsonElement("languageId")]
+    public ObjectId LanguageId { get; private set; }
     
-    [BsonElement("category"), Required]
-    public MongoDBRef Category { get; private set; }
+    [BsonElement("categoryId")]
+    public ObjectId CategoryId { get; private set; }
     
-    [BsonElement("subCategory"), Required]
-    public MongoDBRef SubCategory { get; private set; }
+    [BsonElement("subCategoryId")]
+    public ObjectId SubCategoryId { get; private set; }
     
     [BsonElement("fileId")]
     public ObjectId FileId { get; private set; }

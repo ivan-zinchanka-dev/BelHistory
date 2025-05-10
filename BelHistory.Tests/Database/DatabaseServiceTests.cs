@@ -29,14 +29,13 @@ public class DatabaseServiceTests : IClassFixture<DatabaseFixture>
         
         Assert.True(categories.Count > 0);
     }
-
-    //TODO DbRef -> ObjectId
-    /*[Fact]
+    
+    [Fact]
     public async Task CheckDocument()
     {
         List<HistoricalDocument> historicalDocs = await _databaseFixture.Service.HistoricalDocs
             .Find(doc => doc.Title.Be == "Судзебнік Казіміра 1468 г.").ToListAsync();
         
         Assert.True(historicalDocs.Count == 1);
-    }*/
+    }
 }

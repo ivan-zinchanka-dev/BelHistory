@@ -9,5 +9,5 @@ internal class LocalizedObject
     public ObjectId Id { get; private set; }
     
     [BsonElement("name")]
-    public LocalizedString Name { get; set; }
+    public LocalizedString Name { get; private set; }
 }
