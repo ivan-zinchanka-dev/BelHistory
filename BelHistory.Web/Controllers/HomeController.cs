@@ -18,7 +18,12 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         IReadOnlyList<Category> catalog = await _archive.GetCatalogAsync();
-        
         return View(catalog);
+    }
+
+    public IActionResult Explore(string category, string subCategory)
+    {
+
+        return View();
     }
 }

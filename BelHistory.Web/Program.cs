@@ -1,4 +1,5 @@
 using BelHistory.Domain.API.Services;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace BelHistory.Web;
 
@@ -15,6 +16,18 @@ public class Program
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            OnPrepareResponse = ForceDisableCaching
+        });
+        
         app.Run();
+    }
+    
+    private static void ForceDisableCaching(StaticFileResponseContext context)
+    {
+        context.Context.Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate";
+        context.Context.Response.Headers["Pragma"] = "no-cache";
+        context.Context.Response.Headers["Expires"] = "-1";
     }
 }

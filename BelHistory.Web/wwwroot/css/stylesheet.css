@@ -1,0 +1,22 @@
+* {
+    border-radius: 5px;
+    border-color: #2638ff;
+    font-family: "Comic Sans MS", serif;
+}
+
+body {
+    height: 100vh;                     /* Full viewport height */
+    margin: 0;                         /* Remove default margin */
+    background-color: #f9f9f9;        /* Optional: Background color */
+    display: flex;
+    justify-content: center;           /* Center horizontally */
+    align-items: center;               /* Center vertically */
+
+    flex-direction: column;
+
+}
+
+h2 {
+
+    text-align:center;
+}
