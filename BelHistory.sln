@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BelHistory.Domain", "BelHis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BelHistory.Tests", "BelHistory.Tests\BelHistory.Tests.csproj", "{491E9D82-9A5D-4F91-BC5C-95D45D3B673A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BelHistory.Web", "BelHistory.Web\BelHistory.Web.csproj", "{46E53489-9FA6-48D0-985B-3EDD6F3BE957}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{491E9D82-9A5D-4F91-BC5C-95D45D3B673A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{491E9D82-9A5D-4F91-BC5C-95D45D3B673A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{491E9D82-9A5D-4F91-BC5C-95D45D3B673A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46E53489-9FA6-48D0-985B-3EDD6F3BE957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46E53489-9FA6-48D0-985B-3EDD6F3BE957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46E53489-9FA6-48D0-985B-3EDD6F3BE957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46E53489-9FA6-48D0-985B-3EDD6F3BE957}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
