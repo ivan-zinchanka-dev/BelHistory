@@ -1,11 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BelHistory.Domain.API.Models;
+using BelHistory.Domain.API.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BelHistory.Web.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index()
+    private readonly HistoricalArchive _archive;
+    private readonly ILogger<HomeController> _logger;
+    
+    public HomeController(HistoricalArchive archive, ILogger<HomeController> logger)
     {
-        return View();
+        _archive = archive;
+        _logger = logger;
+    }
+    
+    public async Task<IActionResult> Index()
+    {
+        IReadOnlyList<Category> catalog = await _archive.GetCatalogAsync();
+        
+        return View(catalog);
     }
 }

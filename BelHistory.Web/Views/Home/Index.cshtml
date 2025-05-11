@@ -1,11 +1,20 @@
-﻿<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Обзор баров</title>
-</head>
-<body>
-    <h1>Поиск</h1>
-    <h1>Каталог</h1>
-</body>
-</html>
+﻿@model IReadOnlyList<Category>
+
+<h1>Каталог</h1>
+<ul>
+    @foreach (var category in Model)
+    {
+        <li>
+            @category.LocalizedObject.Name.Ru
+            @if (category.SubCategories.Any())
+            {
+                <ul>
+                    @foreach (Category sub in category.SubCategories)
+                    {
+                        <li>@sub.LocalizedObject.Name.Ru</li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>

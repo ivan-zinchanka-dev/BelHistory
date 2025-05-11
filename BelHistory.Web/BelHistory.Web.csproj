@@ -8,7 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Models\" />
+      <Folder Include="Models\Home\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BelHistory.Domain\BelHistory.Domain.csproj" />
     </ItemGroup>
 
 </Project>

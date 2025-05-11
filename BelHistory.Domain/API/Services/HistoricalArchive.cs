@@ -4,7 +4,9 @@ using BelHistory.Domain.Extensions;
 using BelHistory.Domain.Settings;
 using MongoDB.Bson;
 using MongoDB.Driver;
+
 using Category = BelHistory.Domain.API.Models.Category;
+using CategoryDbo = BelHistory.Domain.Database.Objects.Category;
 using HistoricalDocument = BelHistory.Domain.API.Models.HistoricalDocument;
 using HistoricalDocumentDbo = BelHistory.Domain.Database.Objects.HistoricalDocument;
 
@@ -17,8 +19,9 @@ public class HistoricalArchive
     private List<Category> _catalog;
     private readonly SharedLocalizedObjects _sharedObjects = new ();
     
-    internal HistoricalArchive()
+    public HistoricalArchive()
     {
+        //TODO Add configuration
         _databaseService = new DatabaseService(new ConnectionSettings()
         {
             ConnectionString = "mongodb://localhost:27017",
@@ -47,13 +50,16 @@ public class HistoricalArchive
         {
             _catalog = new List<Category>();
             
-            var topCategoryObjects = await _databaseService.Categories
-                .Find(category => category.ParentId == ObjectId.Empty)
+            FilterDefinition<CategoryDbo> topCategoryFilter = Builders<CategoryDbo>.Filter
+                .Exists(category => category.ParentId, false);
+            
+            List<CategoryDbo> topCategoryObjects = await _databaseService.Categories
+                .Find(topCategoryFilter)
                 .ToListAsync();
             
-            foreach (var categoryObject in topCategoryObjects)
+            foreach (CategoryDbo categoryObject in topCategoryObjects)
             {
-                var subCategoryObjects = await _databaseService.Categories
+                List<CategoryDbo> subCategoryObjects = await _databaseService.Categories
                     .Find(category => category.ParentId == categoryObject.Id)
                     .ToListAsync();
 
