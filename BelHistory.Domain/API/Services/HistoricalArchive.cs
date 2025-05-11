@@ -86,8 +86,8 @@ public class HistoricalArchive
 
         List<HistoricalDocumentDbo> foundObjects = await _databaseService.HistoricalDocs.
             Find(doc=>
-                doc.CategoryId == ObjectId.Parse(path.Category.Id) && 
-                doc.SubCategoryId == ObjectId.Parse(path.SubCategory.Id))
+                doc.CategoryId == MapId(path.CategoryId) && 
+                doc.SubCategoryId == MapId(path.SubCategoryId))
             .Skip(pageIndex * pageSize)
             .Limit(pageSize)
             .ToListAsync();
@@ -96,7 +96,20 @@ public class HistoricalArchive
             .Select(MapToApiModel)
             .ToList();
     }
-    
+
+    private ObjectId MapId(string id)
+    {
+        if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
+        {
+            return ObjectId.Empty;
+        }
+        else if (ObjectId.TryParse(id, out ObjectId parsedId))
+        {
+            return parsedId;
+        }
+        else return ObjectId.Empty;
+    }
+
     private HistoricalDocument MapToApiModel(HistoricalDocumentDbo document)
     {
         _sharedObjects.Languages.TryGetValue(document.LanguageId, out LocalizedObject language);

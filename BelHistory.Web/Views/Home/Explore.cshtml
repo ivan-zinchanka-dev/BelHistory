@@ -1,2 +1,9 @@
 ﻿@model HistoricalDocumentPath
-<h3>@Model.Category.Name.Ru + @Model.Category.Name.Ru</h3>
+<h3>
+    @Model.CategoryId
+    
+    @if (Model.SubCategoryId != null)
+    {
+        <text>//@Model.SubCategoryId</text>
+    }
+</h3>

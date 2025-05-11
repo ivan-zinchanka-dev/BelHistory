@@ -1,7 +1,20 @@
 ﻿namespace BelHistory.Domain.API.Models;
 
-public struct HistoricalDocumentPath
+public class HistoricalDocumentPath
 {
-    public LocalizedObject Category { get; private set; }
-    public LocalizedObject SubCategory { get; private set; }
+    public string CategoryId { get; set; }
+    public string SubCategoryId { get; set; }
+
+    public HistoricalDocumentPath() { }
+    
+    public HistoricalDocumentPath(string categoryId)
+    {
+        CategoryId = categoryId;
+    }
+    
+    public HistoricalDocumentPath(string categoryId, string subCategoryId)
+    {
+        CategoryId = categoryId;
+        SubCategoryId = subCategoryId;
+    }
 }

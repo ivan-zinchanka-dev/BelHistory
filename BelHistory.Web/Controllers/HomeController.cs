@@ -21,9 +21,8 @@ public class HomeController : Controller
         return View(catalog);
     }
 
-    public IActionResult Explore(string category, string subCategory)
+    public IActionResult Explore([FromQuery] HistoricalDocumentPath path)
     {
-
-        return View();
+        return View(path);
     }
 }

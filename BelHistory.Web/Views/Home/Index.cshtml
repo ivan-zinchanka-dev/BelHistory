@@ -5,13 +5,23 @@
     @foreach (var category in Model)
     {
         <li>
-            @category.LocalizedObject.Name.Ru
+            <a asp-controller="Home" asp-action="Explore" 
+               asp-route-categoryId="@category.LocalizedObject.Id">
+                @category.LocalizedObject.Name.Ru
+            </a>
+            
             @if (category.SubCategories.Any())
             {
                 <ul>
-                    @foreach (Category sub in category.SubCategories)
+                    @foreach (Category subCategory in category.SubCategories)
                     {
-                        <li>@sub.LocalizedObject.Name.Ru</li>
+                        <li>
+                            <a asp-controller="Home" asp-action="Explore"
+                               asp-route-categoryId="@category.LocalizedObject.Id"
+                               asp-route-subCategoryId="@subCategory.LocalizedObject.Id">
+                                @subCategory.LocalizedObject.Name.Ru
+                            </a>
+                        </li>
                     }
                 </ul>
             }
