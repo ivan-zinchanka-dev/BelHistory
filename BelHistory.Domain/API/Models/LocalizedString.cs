@@ -12,4 +12,16 @@ public class LocalizedString
         Be = be;
         Ru = ru;
     }
+
+    public string ToString(CultureInfo locale)
+    {
+        if (locale != null && locale.Name.StartsWith(Constants.RussianLocaleName))
+        {
+            return Ru;
+        }
+
+        return Be;
+    }
+
+    public override string ToString() => ToString(null);
 }

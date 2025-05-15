@@ -1,4 +1,5 @@
-﻿using BelHistory.Domain.API.Models;
+﻿using System.Globalization;
+using BelHistory.Domain.API.Models;
 
 namespace BelHistory.Web.ViewModels.Home;
 
@@ -21,5 +22,11 @@ public class ExploreViewModel
         Documents = documents;
     }
     
+    public string GetPath(CultureInfo locale)
+    {
+        return SubCategory != null ? 
+            $"{Category.LocalizedObject.Name.ToString(locale)} / {SubCategory?.LocalizedObject.Name.ToString(locale)}" : 
+            $"{Category.LocalizedObject.Name.ToString(locale)}";
+    }
     
 }

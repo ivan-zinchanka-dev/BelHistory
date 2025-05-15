@@ -1,7 +1,7 @@
-﻿@model ExploreViewModel
+﻿@using System.Globalization
+@model ExploreViewModel
 
-<div>@Model.Category.LocalizedObject.Name.Ru / @Model.SubCategory.LocalizedObject.Name.Ru</div>
-
+<div>@Model.GetPath(CultureInfo.CurrentCulture)</div>
 
 <div>
     <ul class="docs-list">
