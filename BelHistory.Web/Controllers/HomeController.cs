@@ -1,5 +1,6 @@
 ﻿using BelHistory.Domain.API.Models;
 using BelHistory.Domain.API.Services;
+using BelHistory.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BelHistory.Web.Controllers;
@@ -21,8 +22,11 @@ public class HomeController : Controller
         return View(catalog);
     }
 
-    public IActionResult Explore([FromQuery] HistoricalDocumentPath path)
+    public async Task<IActionResult> Explore([FromQuery] HistoricalDocumentPath path)
     {
-        return View(path);
+        IReadOnlyList<HistoricalDocument> historicalDocs = 
+            await _archive.GetPagedDocumentsByPath(path, 0, 10);
+        
+        return View(new ExploreViewModel(path, historicalDocs));
     }
 }

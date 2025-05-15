@@ -1,9 +1,11 @@
-﻿@model HistoricalDocumentPath
-<h3>
-    @Model.CategoryId
-    
-    @if (Model.SubCategoryId != null)
+﻿@model ExploreViewModel
+
+<h1>Тут будет путь</h1>
+
+<ul>
+    @foreach (HistoricalDocument document in Model.Documents)
     {
-        <text>//@Model.SubCategoryId</text>
+        <li>@document.Title.Ru</li>
     }
-</h3>
+</ul>
+

@@ -87,7 +87,8 @@ public class HistoricalArchive
         List<HistoricalDocumentDbo> foundObjects = await _databaseService.HistoricalDocs.
             Find(doc=>
                 doc.CategoryId == MapId(path.CategoryId) && 
-                doc.SubCategoryId == MapId(path.SubCategoryId))
+                (path.SubCategoryId == HistoricalDocumentPath.AnyCategory || 
+                 doc.SubCategoryId == MapId(path.SubCategoryId)))
             .Skip(pageIndex * pageSize)
             .Limit(pageSize)
             .ToListAsync();
