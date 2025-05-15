@@ -1,4 +1,6 @@
-﻿namespace BelHistory.Domain.API.Models;
+﻿using System.Globalization;
+
+namespace BelHistory.Domain.API.Models;
 
 public class LocalizedString
 {

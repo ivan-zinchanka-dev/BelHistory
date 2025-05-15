@@ -4,12 +4,22 @@ namespace BelHistory.Web.ViewModels.Home;
 
 public class ExploreViewModel
 {
-    public HistoricalDocumentPath Path { get; private set; }
+    public Category Category { get; private set; }
+    public Category SubCategory { get; private set; }
     public IReadOnlyList<HistoricalDocument> Documents { get; private set; }
 
-    public ExploreViewModel(HistoricalDocumentPath path, IReadOnlyList<HistoricalDocument> documents)
+    public ExploreViewModel(Category category, IReadOnlyList<HistoricalDocument> documents)
     {
-        Path = path;
+        Category = category;
         Documents = documents;
     }
+    
+    public ExploreViewModel(Category category,Category subCategory, IReadOnlyList<HistoricalDocument> documents)
+    {
+        Category = category;
+        SubCategory = subCategory;
+        Documents = documents;
+    }
+    
+    
 }

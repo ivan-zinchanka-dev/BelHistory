@@ -1,11 +1,13 @@
 ﻿@model ExploreViewModel
 
-<h1>Тут будет путь</h1>
+<div>@Model.Category.LocalizedObject.Name.Ru / @Model.SubCategory.LocalizedObject.Name.Ru</div>
 
-<ul>
-    @foreach (HistoricalDocument document in Model.Documents)
-    {
-        <li>@document.Title.Ru</li>
-    }
-</ul>
 
+<div>
+    <ul class="docs-list">
+        @foreach (HistoricalDocument document in Model.Documents)
+        {
+            <li class="docs-list-item">@document.Title.Ru</li>
+        }
+    </ul>
+</div>

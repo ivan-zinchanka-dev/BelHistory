@@ -27,6 +27,31 @@ public class HomeController : Controller
         IReadOnlyList<HistoricalDocument> historicalDocs = 
             await _archive.GetPagedDocumentsByPath(path, 0, 10);
         
-        return View(new ExploreViewModel(path, historicalDocs));
+        IReadOnlyList<Category> catalog = await _archive.GetCatalogAsync();
+        Category category = GetCategoryById(catalog, path.CategoryId);
+        Category subCategory = GetCategoryById(catalog, path.SubCategoryId);
+        
+        return View(new ExploreViewModel(category, subCategory, historicalDocs));
+    }
+
+    private Category GetCategoryById(IReadOnlyList<Category> catalog, string categoryId)
+    {
+        foreach (Category topCategory in catalog)
+        {
+            if (topCategory.LocalizedObject.Id == categoryId)
+            {
+                return topCategory;
+            }
+
+            foreach (Category subCategory in topCategory.SubCategories)
+            {
+                if (subCategory.LocalizedObject.Id == categoryId)
+                {
+                    return subCategory;
+                }
+            }
+        }
+
+        return null;
     }
 }

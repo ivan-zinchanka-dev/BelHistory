@@ -5,7 +5,7 @@
 }
 
 body {
-    height: 100vh;                     /* Full viewport height */
+
     margin: 0;                         /* Remove default margin */
     background-color: #f9f9f9;        /* Optional: Background color */
     display: flex;
@@ -19,4 +19,32 @@ body {
 h2 {
 
     text-align:center;
+}
+
+/* Optional: Style the list items */
+.docs-list {
+
+    width: 1000px;              /* Set a fixed width */
+    height: 1000px;             /* Set a fixed height */
+    overflow-y: auto;          /* Enable vertical scroll */
+    border: 2px solid #ccc;    /* Optional: Add border to make it look neat */
+    justify-content: start;           /* Center horizontally */
+    align-items: start;               /* Center vertically */
+    align-self: start;
+    align-content: start;
+    padding-left: 0;
+}
+
+.docs-list-item {
+    
+    height: 50px;
+    border-bottom: 1px solid #ddd;    /* Optional: Add a border for each item */
+    marker: none;
+    
+    list-style-type: none;
+    margin: 0;
+}
+
+.docs-list-item:nth-child(even) {
+    background-color: #f0f0f0;
 }
