@@ -1,1 +1,2 @@
-﻿D:\Program Files\MongoDB\Tools\100\bin>mongofiles --db=BelHistory put D:\Downloads\Судзебнік_Казіміра_1468_г.pdf
+﻿D:\Program Files\MongoDB\Tools\100\bin>
+mongofiles --db=BelHistory put D:\Downloads\Судзебнік_Казіміра_1468_г.pdf
