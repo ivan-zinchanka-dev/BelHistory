@@ -23,5 +23,5 @@ public class LocalizedString
         return Be;
     }
 
-    public override string ToString() => ToString(null);
+    public override string ToString() => ToString(CultureInfo.CurrentCulture);
 }

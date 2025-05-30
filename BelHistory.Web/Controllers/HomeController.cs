@@ -34,6 +34,13 @@ public class HomeController : Controller
         return View(new ExploreViewModel(category, subCategory, historicalDocs));
     }
 
+    public async Task<IActionResult> Details([FromQuery] string documentId)
+    {
+        HistoricalDocument historicalDoc = await _archive.GetDocumentById(documentId);
+
+        return View(historicalDoc);
+    }
+
     private Category GetCategoryById(IReadOnlyList<Category> catalog, string categoryId)
     {
         foreach (Category topCategory in catalog)

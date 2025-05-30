@@ -84,8 +84,8 @@ public class HistoricalArchive
             throw new ArgumentOutOfRangeException(nameof(pageIndex), "Page index must be greater than or equal to zero.");
         }
 
-        List<HistoricalDocumentDbo> foundObjects = await _databaseService.HistoricalDocs.
-            Find(doc=>
+        List<HistoricalDocumentDbo> foundObjects = await _databaseService.HistoricalDocs
+            .Find(doc=>
                 doc.CategoryId == MapId(path.CategoryId) && 
                 (path.SubCategoryId == HistoricalDocumentPath.AnyCategory || 
                  doc.SubCategoryId == MapId(path.SubCategoryId)))
@@ -96,6 +96,17 @@ public class HistoricalArchive
         return foundObjects
             .Select(MapToApiModel)
             .ToList();
+    }
+
+    public async Task<HistoricalDocument> GetDocumentById(string documentId)
+    {
+        ObjectId id = MapId(documentId);
+        
+        HistoricalDocumentDbo foundDocument = await _databaseService.HistoricalDocs
+            .Find(doc=> doc.Id == id)
+            .FirstOrDefaultAsync();
+        
+        return MapToApiModel(foundDocument);
     }
 
     private ObjectId MapId(string id)
@@ -113,6 +124,11 @@ public class HistoricalArchive
 
     private HistoricalDocument MapToApiModel(HistoricalDocumentDbo document)
     {
+        if (document == null)
+        {
+            return null;
+        }
+
         _sharedObjects.Languages.TryGetValue(document.LanguageId, out LocalizedObject language);
         _sharedObjects.Categories.TryGetValue(document.CategoryId, out LocalizedObject category);
         _sharedObjects.Categories.TryGetValue(document.SubCategoryId, out LocalizedObject subCategory);

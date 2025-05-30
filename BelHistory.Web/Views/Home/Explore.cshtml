@@ -7,7 +7,12 @@
     <ul class="docs-list">
         @foreach (HistoricalDocument document in Model.Documents)
         {
-            <li class="docs-list-item">@document.Title.Ru</li>
+            <li class="docs-list-item">
+                <a asp-action="Details"
+                   asp-route-documentId="@document.Id">
+                    @document.Title.Ru
+                </a>
+            </li>
         }
     </ul>
 </div>

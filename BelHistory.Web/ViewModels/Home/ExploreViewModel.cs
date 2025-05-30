@@ -15,7 +15,7 @@ public class ExploreViewModel
         Documents = documents;
     }
     
-    public ExploreViewModel(Category category,Category subCategory, IReadOnlyList<HistoricalDocument> documents)
+    public ExploreViewModel(Category category, Category subCategory, IReadOnlyList<HistoricalDocument> documents)
     {
         Category = category;
         SubCategory = subCategory;
