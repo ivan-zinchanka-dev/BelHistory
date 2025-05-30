@@ -10,11 +10,25 @@ public class Program
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllersWithViews();
         builder.Services.AddSingleton<HistoricalArchive>();
+        builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
         
         WebApplication app = builder.Build();
+        
+        /*app.MapGet("/", context =>
+        {
+            context.Response.Redirect("/ru");
+            return Task.CompletedTask;
+        });*/
+        
         app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            name: "defaultWithoutLang",
+            pattern: "{controller=Home}/{action=Index}/{id?}",
+            defaults: new { lang = "ru" });
+
+        app.MapControllerRoute(
+            name: "defaultWithLang",
+            pattern: "{lang}/{controller=Home}/{action=Index}/{id?}");
+        
         
         app.UseStaticFiles(new StaticFileOptions
         {
