@@ -17,6 +17,7 @@ internal class DatabaseService
     public IMongoCollection<Category> Categories { get; private set; }
     public IMongoCollection<Language> Languages { get; private set; }
     public FileExtractor FileExtractor { get; private set; }
+    public FileUploader FileUploader { get; private set; }
 
     public DatabaseService(ConnectionSettings connectionSettings)
     {
@@ -24,7 +25,10 @@ internal class DatabaseService
 
         _client = new MongoClient(_connectionSettings.ConnectionString);
         _database = _client.GetDatabase(_connectionSettings.DatabaseName);
-        FileExtractor = new FileExtractor(new GridFSBucket(_database));
+
+        var fileBucket = new GridFSBucket(_database);
+        FileExtractor = new FileExtractor(fileBucket);
+        FileUploader = new FileUploader(fileBucket);
 
         HistoricalDocs = _database.GetCollection<HistoricalDocument>("historicalDocs");
         Categories = _database.GetCollection<Category>("categories");

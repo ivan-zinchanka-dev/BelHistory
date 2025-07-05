@@ -115,6 +115,18 @@ public class HistoricalArchive
         return await _databaseService.FileExtractor.ExtractFileAsync(id);
     }
 
+    public async Task UploadFilesAsync(IReadOnlyList<string> fullFileNames)
+    {
+        Task[] uploadTasks = new Task[fullFileNames.Count];
+
+        for (int i = 0; i < fullFileNames.Count; i++)
+        {
+            uploadTasks[i] = _databaseService.FileUploader.UploadFileAsync(fullFileNames[i]);
+        }
+        
+        await Task.WhenAll(uploadTasks);
+    }
+
     private ObjectId MapId(string id)
     {
         if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
