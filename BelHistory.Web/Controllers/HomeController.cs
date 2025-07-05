@@ -25,7 +25,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Explore([FromQuery] HistoricalDocumentPath path)
     {
         IReadOnlyList<HistoricalDocument> historicalDocs = 
-            await _archive.GetPagedDocumentsByPath(path, 0, 10);
+            await _archive.GetPagedDocumentsByPathAsync(path, 0, 10);
         
         IReadOnlyList<Category> catalog = await _archive.GetCatalogAsync();
         Category category = GetCategoryById(catalog, path.CategoryId);
@@ -36,9 +36,24 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Details([FromQuery] string documentId)
     {
-        HistoricalDocument historicalDoc = await _archive.GetDocumentById(documentId);
+        HistoricalDocument historicalDoc = await _archive.GetDocumentByIdAsync(documentId);
 
         return View(historicalDoc);
+    }
+
+    public async Task<IActionResult> DownloadFile([FromQuery] string fileId)
+    {
+         FileExtractionResult? fileResult = await _archive.ExtractFileByIdAsync(fileId);
+
+         if (fileResult.HasValue)
+         {
+             var file = fileResult.Value;
+             return File(file.Stream, file.ContentType, file.FileName);
+         }
+         else
+         {
+             return NotFound("File not found");
+         }
     }
 
     private Category GetCategoryById(IReadOnlyList<Category> catalog, string categoryId)

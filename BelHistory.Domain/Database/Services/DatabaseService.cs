@@ -1,8 +1,12 @@
-﻿using BelHistory.Domain.Database.Objects;
+﻿using BelHistory.Domain.API.Models;
+using BelHistory.Domain.Database.Objects;
 using BelHistory.Domain.Database.Objects.Base;
 using BelHistory.Domain.Settings;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
+using Category = BelHistory.Domain.Database.Objects.Category;
+using HistoricalDocument = BelHistory.Domain.Database.Objects.HistoricalDocument;
 
 namespace BelHistory.Domain.Database.Services;
 
@@ -28,5 +32,34 @@ internal class DatabaseService
         HistoricalDocs = _database.GetCollection<HistoricalDocument>("historicalDocs");
         Categories = _database.GetCollection<Category>("categories");
         Languages = _database.GetCollection<Language>("languages");
+    }
+
+    public async Task<FileExtractionResult?> ExtractFileAsync(ObjectId fileId)
+    {
+        if (fileId == ObjectId.Empty)
+        {
+            return null;
+        }
+
+        try
+        {
+            IAsyncCursor<GridFSFileInfo> cursor = 
+                await _fileBucket.FindAsync(Builders<GridFSFileInfo>.Filter.Eq("_id", fileId));
+
+            GridFSFileInfo fileInfo = await cursor.FirstOrDefaultAsync();
+
+            if (fileInfo == null)
+            {
+                return null;
+            }
+
+            GridFSDownloadStream stream = await _fileBucket.OpenDownloadStreamAsync(fileId);
+
+            return new FileExtractionResult(fileInfo.Filename, "application/octet-stream", stream);
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

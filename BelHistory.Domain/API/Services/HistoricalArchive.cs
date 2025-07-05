@@ -74,7 +74,7 @@ public class HistoricalArchive
         return _catalog;
     }
 
-    public async Task<IReadOnlyList<HistoricalDocument>> GetPagedDocumentsByPath(
+    public async Task<IReadOnlyList<HistoricalDocument>> GetPagedDocumentsByPathAsync(
         HistoricalDocumentPath path,
         int pageIndex, 
         int pageSize)
@@ -98,7 +98,7 @@ public class HistoricalArchive
             .ToList();
     }
 
-    public async Task<HistoricalDocument> GetDocumentById(string documentId)
+    public async Task<HistoricalDocument> GetDocumentByIdAsync(string documentId)
     {
         ObjectId id = MapId(documentId);
         
@@ -107,6 +107,12 @@ public class HistoricalArchive
             .FirstOrDefaultAsync();
         
         return MapToApiModel(foundDocument);
+    }
+
+    public async Task<FileExtractionResult?> ExtractFileByIdAsync(string fileId)
+    {
+        ObjectId id = MapId(fileId);
+        return await _databaseService.ExtractFileAsync(id);
     }
 
     private ObjectId MapId(string id)
