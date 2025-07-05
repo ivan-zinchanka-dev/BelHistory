@@ -46,7 +46,7 @@ public class DatabaseServiceTests : IClassFixture<DatabaseFixture>
     [Fact]
     public async Task CheckFile()
     {
-        FileExtractionResult? fileResult = await _databaseFixture.Service.ExtractFileAsync(ObjectId.Parse("6825fd6c22fbde6f5ec7e482"));
+        FileExtractionResult? fileResult = await _databaseFixture.Service.FileExtractor.ExtractFileAsync(ObjectId.Parse("6825fd6c22fbde6f5ec7e482"));
 
         if (fileResult.HasValue)
         {

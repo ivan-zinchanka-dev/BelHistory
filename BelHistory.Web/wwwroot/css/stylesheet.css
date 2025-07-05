@@ -95,3 +95,18 @@ h2 {
 .download-button:hover {
     background-color: #204d74;
 }
+
+.download-button {
+    display: inline-block;
+    margin-top: 1em;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.download-button:hover {
+    background-color: #45a049;
+}

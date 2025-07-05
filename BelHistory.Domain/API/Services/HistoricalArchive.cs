@@ -112,7 +112,7 @@ public class HistoricalArchive
     public async Task<FileExtractionResult?> ExtractFileByIdAsync(string fileId)
     {
         ObjectId id = MapId(fileId);
-        return await _databaseService.ExtractFileAsync(id);
+        return await _databaseService.FileExtractor.ExtractFileAsync(id);
     }
 
     private ObjectId MapId(string id)
