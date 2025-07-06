@@ -13,6 +13,8 @@ internal class UploadFilesHandler
 
     public async Task UploadFilesAsync(string filesDirectoryPath)
     {
+        filesDirectoryPath = "D:\\Documents\\Hobby\\BelHistory";        //TODO Remove
+        
         string[] allFiles = Directory.GetFiles(filesDirectoryPath, "*.*", SearchOption.AllDirectories);
         await _archive.UploadFilesAsync(allFiles);
     }

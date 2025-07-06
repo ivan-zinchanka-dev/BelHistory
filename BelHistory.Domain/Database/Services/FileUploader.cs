@@ -9,12 +9,12 @@ internal class FileUploader
     
     private static readonly IReadOnlyDictionary<string, string> ContentTypes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
-        { "pdf", "application/pdf" },
-        { "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
-        { "djvu", "image/vnd.djvu" },
-        { "jpeg", "image/jpeg" },
-        { "jpg", "image/jpeg" },
-        { "png", "image/png" },
+        { ".pdf", "application/pdf" },
+        { ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
+        { ".djvu", "image/vnd.djvu" },
+        { ".jpeg", "image/jpeg" },
+        { ".jpg", "image/jpeg" },
+        { ".png", "image/png" },
     };
     
     private readonly GridFSBucket _fileBucket;
