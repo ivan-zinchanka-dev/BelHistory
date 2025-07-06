@@ -157,10 +157,12 @@ public class HistoricalArchive
             Title = document.Title.ToApiModel(),
             CreationTime = document.CreationTime.ToApiModel(),
             Author = document.Author.ToApiModel(),
+            Description = document.Description.ToApiModel(),
             Language = language,
             Category = category,
             SubCategory = subCategory,
             FileId = document.FileId.ToString(),
+            //TODO ImageId
             Tags = document.Tags
         };
     }

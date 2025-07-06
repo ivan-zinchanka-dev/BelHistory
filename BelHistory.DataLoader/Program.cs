@@ -17,6 +17,8 @@ public static class Program
         var uploadFilesHandler = new UploadFilesHandler(new HistoricalArchive());
         var executeScriptsHandler = new ExecuteScriptsHandler();
         
+        //TODO Organize commands
+        
         /*loadFilesCommand.Add(directoryArg);
         loadFilesCommand.SetHandler(uploadFilesHandler.UploadFilesAsync, directoryArg);
         

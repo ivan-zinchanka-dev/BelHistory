@@ -18,6 +18,9 @@ internal class HistoricalDocument
     
     [BsonElement("author")]
     public LocalizedString Author { get; private set; }
+    
+    [BsonElement("description")]
+    public LocalizedString Description { get; private set; }
 
     [BsonElement("languageId")]
     public ObjectId LanguageId { get; private set; }
@@ -30,6 +33,9 @@ internal class HistoricalDocument
     
     [BsonElement("fileId")]
     public ObjectId FileId { get; private set; }
+    
+    [BsonElement("imageId")]
+    public ObjectId ImageId { get; private set; }
 
     [BsonElement("tags"), Required]
     public List<string> Tags { get; private set; }
