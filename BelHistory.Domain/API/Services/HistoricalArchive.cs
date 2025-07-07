@@ -140,6 +140,18 @@ public class HistoricalArchive
         else return ObjectId.Empty;
     }
 
+    private string MapId(ObjectId objectId)
+    {
+        if (objectId != ObjectId.Empty)
+        {
+            return objectId.ToString();
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
     private HistoricalDocument MapToApiModel(HistoricalDocumentDbo document)
     {
         if (document == null)
@@ -161,8 +173,8 @@ public class HistoricalArchive
             Language = language,
             Category = category,
             SubCategory = subCategory,
-            FileId = document.FileId.ToString(),
-            //TODO ImageId
+            FileId = MapId(document.FileId),
+            ImageId = MapId(document.ImageId),
             Tags = document.Tags
         };
     }

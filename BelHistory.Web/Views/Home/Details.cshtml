@@ -5,8 +5,10 @@
 
 <div class="doc-container">
 
+    @* TODO Custom tag-helper? *@
     <div class="doc-image">
-        <img src="../img/test.png" alt="Обложка документа">
+        <img src="@Url.Action("DownloadFile", "Home", new { fileId = Model.ImageId })" 
+             alt="Изображение отсутсвует">
     </div>
     
     <div class="doc-info">
