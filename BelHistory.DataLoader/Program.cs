@@ -1,7 +1,8 @@
 ﻿using System.CommandLine;
-using System.CommandLine.Invocation;
 using BelHistory.DataLoader.Handlers;
 using BelHistory.Domain.API.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BelHistory.DataLoader;
 
@@ -11,22 +12,32 @@ public static class Program
     {
         var rootCommand = new RootCommand("Утилита для добавления данных");
 
-        var loadFilesCommand = new Command("files", "Загружает файлы в БД");
-        var directoryArg = new Argument<string>("dir");
+        var installCommand = new Command("upload", "Загружает данные в БД");
+        var rootDirArg = new Argument<string>("rootDir", "Корневая папка с данными");
+
+        IServiceProvider serviceProvider = ConfigureServices();
+        var uploadDataHandler = serviceProvider.GetRequiredService<UploadDataHandler>();
         
-        var uploadFilesHandler = new UploadFilesHandler(new HistoricalArchive());
-        var executeScriptsHandler = new ExecuteScriptsHandler();
+        installCommand.Add(rootDirArg);
+        installCommand.SetHandler(uploadDataHandler.UploadDataAsync, rootDirArg);
         
-        //TODO Organize commands
-        
-        /*loadFilesCommand.Add(directoryArg);
-        loadFilesCommand.SetHandler(uploadFilesHandler.UploadFilesAsync, directoryArg);
-        
-        rootCommand.Add(loadFilesCommand);*/
-        
-        //rootCommand.SetHandler(uploadFilesHandler.UploadFilesAsync, directoryArg);
-        rootCommand.SetHandler(executeScriptsHandler.ExecuteAsync);
+        rootCommand.Add(installCommand);
         
         return await rootCommand.InvokeAsync(args);
+    }
+
+    private static IServiceProvider ConfigureServices()
+    {
+        return new ServiceCollection()
+            .AddSingleton<HistoricalArchive>()
+            .AddSingleton<UploadFilesHandler>()
+            .AddSingleton<ExecuteScriptsHandler>()
+            .AddLogging(configure =>
+            {
+                configure.AddConsole();
+                configure.SetMinimumLevel(LogLevel.Debug);
+            })
+            .AddSingleton<UploadDataHandler>()
+            .BuildServiceProvider();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace BelHistory.DataLoader.Handlers;
 
@@ -8,26 +9,45 @@ internal class ExecuteScriptsHandler
     private const string MongoShellPath = "mongosh.exe";
     private const string DatabaseName = "BelHistory";
 
-    private static readonly string[] Scripts =
+    private static readonly string[] ScriptNames =
     {
         "enums_data.js",
         "history_docs_data.js",
     };
-    
-    public async Task ExecuteAsync()
+
+    private ILogger<ExecuteScriptsHandler> _logger;
+
+    public ExecuteScriptsHandler(ILogger<ExecuteScriptsHandler> logger)
     {
-        string mongoShellFile = FindExecutableInPath(MongoShellPath);
-        
-        foreach (string script in Scripts)
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(string scriptsDirectoryPath)
+    {
+        if (!Directory.Exists(scriptsDirectoryPath))
         {
-            Console.WriteLine($"Запуск скрипта: {script}");
+            _logger.LogError($"Дирректория \"{scriptsDirectoryPath}\" не найдена");
+            return;
+        }
+
+        string mongoShellFile = FindExecutableInPath(MongoShellPath);
+
+        if (mongoShellFile == null)
+        {
+            _logger.LogError("Исполняемый файл MongoShell не обнаружен");
+            return;
+        }
+
+        foreach (string scriptName in ScriptNames)
+        {
+            _logger.LogInformation($"Запуск скрипта: {scriptName}");
             
             var process = new Process()
             {
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = mongoShellFile,
-                    Arguments = $"{DatabaseName} \"{script}\"",
+                    Arguments = $"{DatabaseName} \"{Path.Combine(scriptsDirectoryPath, scriptName)}\"",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
@@ -36,20 +56,9 @@ internal class ExecuteScriptsHandler
             };
 
             process.Start();
-
-            string output = await process.StandardOutput.ReadToEndAsync();
-            string error = await process.StandardError.ReadToEndAsync();
-
             await process.WaitForExitAsync();
 
-            
-            if (!string.IsNullOrWhiteSpace(output))
-                Console.WriteLine("Вывод:\n" + output);
-
-            if (!string.IsNullOrWhiteSpace(error))
-                Console.WriteLine("Ошибка:\n" + error);
-
-            Console.WriteLine($"Скрипт {script} завершён (код {process.ExitCode})");
+            _logger.LogInformation($"Скрипт {scriptName} выполнен с кодом {process.ExitCode}");
         }
     }
 
@@ -59,7 +68,7 @@ internal class ExecuteScriptsHandler
             .Split(Path.PathSeparator);
     }
 
-    private static string FindExecutableInPath(string exeName)
+    private string FindExecutableInPath(string exeName)
     {
         IEnumerable<string> paths = GetPaths(EnvironmentVariableTarget.Machine)
             .Concat(GetPaths(EnvironmentVariableTarget.User))
@@ -75,9 +84,9 @@ internal class ExecuteScriptsHandler
                     return fullPath;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.LogError(ex, "Ошибка");
             }
         }
 
