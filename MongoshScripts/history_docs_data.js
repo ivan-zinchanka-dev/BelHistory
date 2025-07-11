@@ -4,6 +4,7 @@ const lawCategory = db.categories.findOne({ "name.be": "Права", "parentId":
 const oldEastSlavic = db.languages.findOne({ "name.be": "Старажытнаруская" })
 const ruthenian = db.languages.findOne({ "name.be": "Старабеларуская" })
 const russian = db.languages.findOne({ "name.be": "Руская" })
+const belarusian = db.languages.findOne({ "name.be": "Беларуская" })
 
 db.historicalDocs.insertOne({
     "title": {
@@ -18,14 +19,20 @@ db.historicalDocs.insertOne({
         "be": "Казімір IV Ягелончык",
         "ru": "Казимир IV Ягеллончик"
     },
-    "description" : {
+    "description": {
         "be": "Судзебнік Казіміра 1468 года — першы вядомы пісьмовы збор законаў Вялікага Княства Літоўскага. Прыняты пры вялікім князі Казіміры IV. Дакумент рэгламентаваў судовыя працэсы, асабліва ў дачыненні да залежных сялян, і замацоўваў нормы феадальнага права. Быў прызначаны для судоў феадалаў, якія ажыццяўлялі правасуддзе над прыгоннымі, усталёўваючы пакаранні за розныя правапарушэнні. Дакумент адлюстроўваў умацаванне ўлады землеўладальнікаў і спрыяў юрыдычнаму афармленню прыгоннага права у ВКЛ.",
         "ru": "Судебник Казимира 1468 года — первый известный письменный свод законов Великого княжества Литовского. Принят при великом князе Казимире IV. Этот документ регулировал судебные процессы, особенно в отношении зависимых крестьян, и закреплял нормы феодального права. Был предназначен для судов феодалов, которые вершили правосудие над крепостными, устанавливая наказания за различные правонарушения. Документ отражал усиление власти землевладельцев и способствовал юридическому оформлению крепостного права в ВКЛ."
     },
     "languageId": ruthenian._id,
     "categoryId": docsCategory._id,
     "subCategoryId": lawCategory._id,
-    "fileId": db.fs.files.findOne({ filename: /Судзебнік_Казіміра_1468_г\.pdf$/i })._id,
+    "fileInstances": [
+        {
+            "title": "Судебник Казимира 1468 г. (оригинал)",
+            "languageId": ruthenian._id,
+            "fileId": db.fs.files.findOne({ filename: /Судзебнік_Казіміра_1468_г\.pdf$/i })._id
+        }
+    ],
     "imageId": db.fs.files.findOne({ filename: /Судзебнік_Казіміра_1468_г\.jpg$/i })._id,
     "tags": []
 })
@@ -50,7 +57,13 @@ db.historicalDocs.insertOne({
     "languageId": ruthenian._id,
     "categoryId": docsCategory._id,
     "subCategoryId": lawCategory._id,
-    "fileId": db.fs.files.findOne({ filename: /Прывілей_Казіміра_1447_г\.pdf$/i })._id,
+    "fileInstances": [
+        {
+            "title": "Прывілей Казіміра 1447 г. (арыгінал)",
+            "languageId": ruthenian._id,
+            "fileId": db.fs.files.findOne({ filename: /Прывілей_Казіміра_1447_г\.pdf$/i })._id
+        }
+    ],
     "tags": []
 })
 
@@ -74,14 +87,20 @@ db.historicalDocs.insertOne({
     "languageId": ruthenian._id,
     "categoryId": docsCategory._id,
     "subCategoryId": lawCategory._id,
-    "fileId": db.fs.files.findOne({ filename: /Прывілей_Аляксандра_1492_г\.pdf$/i })._id,
+    "fileInstances": [
+        {
+            "title": "Прывілей Аляксандра 1492 г. (арыгінал)",
+            "languageId": ruthenian._id,
+            "fileId": db.fs.files.findOne({ filename: /Прывілей_Аляксандра_1492_г\.pdf$/i })._id
+        }
+    ],
     "tags": []
 })
 
 db.historicalDocs.insertOne({
     "title": {
-        "be": "Судзебнік Івана 1497 г. (арыгінал)",
-        "ru": "Судебник Ивана 1497 г. (оригинал)"
+        "be": "Судзебнік Івана 1497 г.",
+        "ru": "Судебник Ивана 1497 г."
     },
     "creationTime": {
         "be": "1497 г.",
@@ -98,32 +117,18 @@ db.historicalDocs.insertOne({
     "languageId": oldEastSlavic._id,
     "categoryId": docsCategory._id,
     "subCategoryId": lawCategory._id,
-    "fileId": db.fs.files.findOne({ filename: /Судебник_Ивана_1497_г\._оригинал\.pdf$/i })._id,
-    "imageId": db.fs.files.findOne({ filename: /Судебник_Ивана_1497_г\.jpg$/i })._id,
-    "tags": []
-})
-
-db.historicalDocs.insertOne({
-    "title": {
-        "be": "Судзебнік Івана 1497 г. (новая рэдакцыя)",
-        "ru": "Судебник Ивана 1497 г. (новая редакция)"
-    },
-    "creationTime": {
-        "be": "1497 г.",
-        "ru": "1497 г."
-    },
-    "author": {
-        "be": "Іван III Васільевіч",
-        "ru": "Иван III Васильевич"
-    },
-    "description" : {
-        "be": "Судзебнік 1497 года — першы збор законаў адзінай Рускай дзяржавы, створаны пры вялікім князі Іване III. Гэты дакумент замацаваў асновы цэнтралізаванай судовай сістэмы і ўніфікаваў прававыя нормы на ўсёй тэрыторыі дзяржавы. Судзебнік рэгуляваў пытанні крымінальнага і грамадзянскага права, устанаўліваў парадак судаводства і пакарання за злачынствы. Ён таксама абмяжоўваў самаўпраўства мясцовых улад, падпарадкаваўшы іх цэнтральнай княжацкай адміністрацыі. Судзебнік 1497 года стаў важным крокам у фармаванні прававой сістэмы Расіі.",
-        "ru": "Судебник 1497 года — первый свод законов единого Русского государства, созданный при великом князе Иване III. Этот документ закрепил основы централизованной судебной системы и унифицировал правовые нормы на всей территории государства. Судебник регулировал вопросы уголовного и гражданского права, устанавливал порядок судопроизводства и наказания за преступления. Он также ограничил произвол местных властей, подчинив их центральной княжеской администрации. Судебник 1497 года стал важным шагом в формировании правовой системы России."
-    },
-    "languageId": russian._id,
-    "categoryId": docsCategory._id,
-    "subCategoryId": lawCategory._id,
-    "fileId": db.fs.files.findOne({ filename: /Судебник_Ивана_1497_г\._новая_редакция\.pdf$/i })._id,
+    "fileInstances": [
+        {
+            "title": "Судебник Ивана 1497 г. (оригинал)",
+            "languageId": oldEastSlavic._id,
+            "fileId": db.fs.files.findOne({ filename: /Судебник_Ивана_1497_г\._оригинал\.pdf$/i })._id
+        },
+        {
+            "title": "Судебник Ивана 1497 г. (новая редакция)",
+            "languageId": russian._id,
+            "fileId": db.fs.files.findOne({ filename: /Судебник_Ивана_1497_г\._новая_редакция\.pdf$/i })._id
+        }
+    ],
     "imageId": db.fs.files.findOne({ filename: /Судебник_Ивана_1497_г\.jpg$/i })._id,
     "tags": []
 })

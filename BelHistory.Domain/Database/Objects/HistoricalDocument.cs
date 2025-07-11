@@ -31,13 +31,12 @@ internal class HistoricalDocument
     [BsonElement("subCategoryId")]
     public ObjectId SubCategoryId { get; private set; }
     
-    [BsonElement("fileId")]
-    public ObjectId FileId { get; private set; }
+    [BsonElement("fileInstances")]
+    public List<FileInstance> FileInstances { get; private set; }
     
     [BsonElement("imageId")]
     public ObjectId ImageId { get; private set; }
 
     [BsonElement("tags"), Required]
     public List<string> Tags { get; private set; }
-
 }

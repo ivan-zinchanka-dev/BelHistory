@@ -9,6 +9,8 @@ using Category = BelHistory.Domain.API.Models.Category;
 using CategoryDbo = BelHistory.Domain.Database.Objects.Category;
 using HistoricalDocument = BelHistory.Domain.API.Models.HistoricalDocument;
 using HistoricalDocumentDbo = BelHistory.Domain.Database.Objects.HistoricalDocument;
+using FileInstance = BelHistory.Domain.API.Models.FileInstance;
+using FileInstanceDbo = BelHistory.Domain.Database.Objects.FileInstance;
 
 namespace BelHistory.Domain.API.Services;
 
@@ -151,7 +153,24 @@ public class HistoricalArchive
             return null;
         }
     }
-    
+
+    private FileInstance MapToApiModel(FileInstanceDbo fileInstance)
+    {
+        if (fileInstance == null)
+        {
+            return null;
+        }
+        
+        _sharedObjects.Languages.TryGetValue(fileInstance.LanguageId, out LocalizedObject language);
+
+        return new FileInstance()
+        {
+            Title = fileInstance.Title,
+            Language = language,
+            FileId = fileInstance.FileId.ToString(),
+        };
+    }
+
     private HistoricalDocument MapToApiModel(HistoricalDocumentDbo document)
     {
         if (document == null)
@@ -173,7 +192,7 @@ public class HistoricalArchive
             Language = language,
             Category = category,
             SubCategory = subCategory,
-            FileId = MapId(document.FileId),
+            FileInstances = document.FileInstances.Select(MapToApiModel).ToList(),
             ImageId = MapId(document.ImageId),
             Tags = document.Tags
         };

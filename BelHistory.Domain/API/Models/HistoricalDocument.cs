@@ -10,7 +10,7 @@ public class HistoricalDocument
     public LocalizedObject Language { get; internal set; }
     public LocalizedObject Category { get; internal set; }
     public LocalizedObject SubCategory { get; internal set; }
-    public string FileId { get; internal set; }
+    public List<FileInstance> FileInstances { get; internal set; }
     public string ImageId { get; internal set; }
     public List<string> Tags { get; internal set; }
 }

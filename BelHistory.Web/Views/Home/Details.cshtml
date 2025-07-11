@@ -18,6 +18,9 @@
             <dt>Автор:</dt>
             <dd>@Model.Author</dd>
 
+            <dt>Язык оригинала:</dt>
+            <dd>@Model.Language.Name</dd>
+            
             <dt>Время написания:</dt>
             <dd>@Model.CreationTime</dd>
 
@@ -25,12 +28,20 @@
             <dd>@Model.Description</dd>
         </dl>
 
-        <a asp-controller="Home"
-           asp-action="DownloadFile"
-           asp-route-fileId="@Model.FileId"
-           class="download-button">
-            Скачать документ
-        </a>
+        <ul>
+            @foreach (FileInstance fileInstance in Model.FileInstances)
+            {
+                <li>
+                    @fileInstance.Title
+                    <a asp-controller="Home"
+                       asp-action="DownloadFile"
+                       asp-route-fileId="@fileInstance.FileId"
+                       class="download-button">
+                        Скачать документ
+                    </a>
+                </li>
+            }
+        </ul>
        
     </div>
 </div>
