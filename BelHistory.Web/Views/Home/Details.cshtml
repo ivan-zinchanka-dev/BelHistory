@@ -16,7 +16,7 @@
 
         <dl>
             <dt>Автор:</dt>
-            <dd>@Model.Author</dd>
+            <dd>@GetAuthor(Model)</dd>
 
             <dt>Язык оригинала:</dt>
             <dd>@Model.Language.Name</dd>
@@ -45,3 +45,11 @@
        
     </div>
 </div>
+
+@functions
+{
+    private string GetAuthor(HistoricalDocument document)
+    {
+        return document.Author != null ? document.Author.ToString() : "Неизвестен";
+    }
+}

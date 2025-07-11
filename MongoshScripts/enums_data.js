@@ -79,6 +79,13 @@ other = db.categories.insertOne({
 
 /*Languages*/
 
+churchSlavonic = db.languages.insertOne({
+    "name" : {
+        "be": "Царкоўнаславянская",
+        "ru": "Церковнославянский"
+    }
+}) 
+
 oldEastSlavic = db.languages.insertOne({
     "name" : {
         "be": "Старажытнаруская",

@@ -1,6 +1,10 @@
 const docsCategory = db.categories.findOne({ "name.be": "Дакументы" })
-const lawCategory = db.categories.findOne({ "name.be": "Права", "parentId": docsCategory._id })
+const booksCategory = db.categories.findOne({ "name.be": "Кнігі" })
 
+const lawCategory = db.categories.findOne({ "name.be": "Права", "parentId": docsCategory._id })
+const religionCategory = db.categories.findOne({ "name.be": "Рэлігія", "parentId": booksCategory._id })
+
+const churchSlavonic = db.languages.findOne({ "name.be": "Царкоўнаславянская" })
 const oldEastSlavic = db.languages.findOne({ "name.be": "Старажытнаруская" })
 const ruthenian = db.languages.findOne({ "name.be": "Старабеларуская" })
 const russian = db.languages.findOne({ "name.be": "Руская" })
@@ -130,5 +134,58 @@ db.historicalDocs.insertOne({
         }
     ],
     "imageId": db.fs.files.findOne({ filename: /Судебник_Ивана_1497_г\.jpg$/i })._id,
+    "tags": []
+})
+
+db.historicalDocs.insertOne({
+    "title": {
+        "be": "Жыціе Кірылы Тураўскага",
+        "ru": "Житие Кирилла Туровского"
+    },
+    "creationTime": {
+        "be": "XIV-XV ст.ст.",
+        "ru": "XIV-XV в.в."
+    },
+    "description" : {
+        "be": "«Жыціе Кірылы Тураўскага» апісвае духоўны шлях і жыццё епіскапа Кірылы — вядомага пропаведніка і пісьменніка XII стагоддзя. Кірыла праславіўся сваімі казаннямі, малітвамі і павучаннямі, што вылучаюцца глыбінёй думкі і прыгожай літаратурнай мовай. У жыцці падкрэсліваецца ягоная пакора, любоў да Бога і адмаўленне ад зямной славы.",
+        "ru": "«Житие Кирилла Туровского» повествует о жизни и духовном пути епископа Кирилла — выдающегося церковного писателя и проповедника XII века. Он прославился своими поучениями, молитвами и речами, отличающимися глубокой богословской мыслью и литературным мастерством. В житии подчеркиваются его смирение, любовь к Богу, а также отказ от мирских почестей."
+    },
+    "languageId": churchSlavonic._id,
+    "categoryId": booksCategory._id,
+    "subCategoryId": religionCategory._id,
+    "fileInstances": [
+        {
+            "title": "Житие Кирилла Туровского (оригинал и русский перевод)",
+            "languageId": russian._id,
+            "fileId": db.fs.files.findOne({ filename: /Житие_Кирилла_Туровского\.pdf$/i })._id
+        }
+    ],
+    "tags": []
+})
+
+db.historicalDocs.insertOne({
+    "title": {
+        "be": "Жыціе Еўфрасінні Полацкай",
+        "ru": "Житие Евфросинии Полоцкой"
+    },
+    "creationTime": {
+        "be": "другая палова XII ст.",
+        "ru": "вторая половина XII в."
+    },
+    "description" : {
+        "be": "«Жыціе Еўфрасінні Полацкай» апавядае пра жыццё святой князёўны, асветніцы і манашкі XII стагоддзя. Паходзячы са знатнага полацкага роду, яна адмовілася ад шлюбу і пайшла ў манастыр, цалкам прысвяціўшы сябе служэнню Богу. Еўфрасіння займалася асветай, перапісваннем кніг і будаўніцтвам храмаў. Асаблівую славу ёй прынёс заснаваны ёю Спаса-Еўфрасіннеўскі манастыр ды крыж, які стаў духоўным сімвалам Беларусі.",
+        "ru": "«Житие Евфросинии Полоцкой» рассказывает о жизни святой княжны, просветительницы и монахини XII века. Родом из знатного полоцкого рода, она отказалась от брака и ушла в монастырь, посвятив себя Богу. Евфросиния занималась просвещением, перепиской книг и строительством храмов. Особую славу ей принёс основанный ею Спасо-Евфросиниевский монастырь и крест, который стал духовным символом Беларуси."
+    },
+    "languageId": churchSlavonic._id,
+    "categoryId": booksCategory._id,
+    "subCategoryId": religionCategory._id,
+    "fileInstances": [
+        {
+            "title": "Жыціе Еўфрасінні Полацкай (беларускі пераклад)",
+            "languageId": belarusian._id,
+            "fileId": db.fs.files.findOne({ filename: /Жыціе_Еўфрасінні_Полацкай\.pdf$/i })._id
+        }
+    ],
+    "imageId": db.fs.files.findOne({ filename: /Жыціе_Еўфрасінні_Полацкай\.jpg$/i })._id,
     "tags": []
 })

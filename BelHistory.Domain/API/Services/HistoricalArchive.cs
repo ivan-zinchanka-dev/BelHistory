@@ -187,7 +187,7 @@ public class HistoricalArchive
             Id = document.Id.ToString(),
             Title = document.Title.ToApiModel(),
             CreationTime = document.CreationTime.ToApiModel(),
-            Author = document.Author.ToApiModel(),
+            Author = document.Author?.ToApiModel(),
             Description = document.Description.ToApiModel(),
             Language = language,
             Category = category,
